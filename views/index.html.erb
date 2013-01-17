@@ -1,0 +1,23 @@
+<html>
+	<head>
+		<title>Your IP address - <%= @ip %></title>
+	</head>
+	<body>
+		<h1 id='ip'><%= @ip %></h1>
+
+		<% if @hostname %>
+		<div id='hostname'><%= @hostname %></div>
+		<% end %>
+
+		<% if @forwarded %>
+		<div id='forwarded'>
+			Forwarded for <%= @forwarded %>
+		</div>
+			<% if @forwarded_host %>
+			<div id='forwarded-host'>
+				<%= @forwarded_host %>
+			</div>
+			<% end %>
+		<% end %>
+	</body>
+</html>
