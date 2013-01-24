@@ -28,7 +28,7 @@ get '/' do
 	erb :'index.html'
 end
 
-get '/:host' do |host|
+get '/host/:host' do |host|
 	@host = host
 	record = IP.find_by_host(host)
 	if record
@@ -39,7 +39,7 @@ get '/:host' do |host|
 	end
 end
 
-post '/:host' do |host|
+post '/host/:host' do |host|
 	record = IP.find_by_host(host)
 	unless record
 		record = IP.new
