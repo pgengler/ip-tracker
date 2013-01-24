@@ -38,3 +38,17 @@ get '/:host' do |host|
 		erb :'unknown.html'
 	end
 end
+
+post '/:host' do |host|
+	record = IP.find_by_host(host)
+	unless record
+		record = IP.new
+		record.host = host
+	end
+
+	record.ip = env['REMOTE_ADDR']
+
+	record.save!
+
+	redirect "/#{host}"
+end
