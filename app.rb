@@ -1,5 +1,9 @@
+require 'rubygems'
 require 'sinatra'
+require 'sinatra/activerecord'
 require 'socket'
+
+set :database, 'postgres://ip:ip@localhost/ips'
 
 def hostname(ip)
 	begin
@@ -11,6 +15,10 @@ def hostname(ip)
 	hostname
 end
 
+class IP < ActiveRecord::Base
+	attr_accessible :name, :ip
+end
+
 get '/' do
 	@ip = env['REMOTE_ADDR']
 	@hostname = hostname(@ip) if @ip
@@ -18,4 +26,15 @@ get '/' do
 	@forwarded_host = hostname(@forwarded) if @forwarded
 
 	erb :'index.html'
+end
+
+get '/:host' do |host|
+	@host = host
+	record = IP.find_by_host(host)
+	if record
+		@ip = record.ip
+		erb :'show.html'
+	else
+		erb :'unknown.html'
+	end
 end
