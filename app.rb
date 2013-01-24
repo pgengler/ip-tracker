@@ -29,11 +29,9 @@ get '/' do
 end
 
 get '/host/:host' do |host|
-	@host = host
-	record = IP.find_by_host(host)
-	pass unless record
+	@record = IP.find_by_host(host)
+	pass unless @record
 
-	@ip = record.ip
 	erb :'show.html'
 end
 
