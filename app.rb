@@ -28,14 +28,19 @@ get '/' do
 	erb :'index.html'
 end
 
-get '/host/:host' do |host|
+get %r{/host/([^\/?#\.]+)(?:\.|%2E)?([^\/?#]+)?} do |host, format|
 	@record = IP.find_by_host(host)
 	pass unless @record
 
-	erb :'show.html'
+	if format == 'txt'
+		content_type 'text/plain'
+		@record.ip
+	else
+		erb :'show.html'
+	end
 end
 
-post '/host/:host' do |host|
+post %r{/host/([^\/?#\.]+)(?:\.|%2E)?([^\/?#]+)?} do |host, format|
 	record = IP.find_by_host(host)
 	unless record
 		record = IP.new
@@ -46,5 +51,6 @@ post '/host/:host' do |host|
 
 	record.save!
 
-	redirect "/#{host}"
+	format = ".#{format}" if format
+	redirect "/host/#{host}#{format}"
 end
