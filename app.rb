@@ -31,12 +31,10 @@ end
 get '/host/:host' do |host|
 	@host = host
 	record = IP.find_by_host(host)
-	if record
-		@ip = record.ip
-		erb :'show.html'
-	else
-		erb :'unknown.html'
-	end
+	pass unless record
+
+	@ip = record.ip
+	erb :'show.html'
 end
 
 post '/host/:host' do |host|
