@@ -52,5 +52,5 @@ post %r{/ip/([^\/?#\.]+)(?:\.|%2E)?([^\/?#]+)?} do |host, format|
 	record.save!
 
 	format = ".#{format}" if format
-	redirect "/host/#{host}#{format}"
+	redirect "/ip/#{host}#{format}"
 end
