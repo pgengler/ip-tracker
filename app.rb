@@ -28,7 +28,7 @@ get '/' do
 	erb :'index.html'
 end
 
-get %r{/host/([^\/?#\.]+)(?:\.|%2E)?([^\/?#]+)?} do |host, format|
+get %r{/ip/([^\/?#\.]+)(?:\.|%2E)?([^\/?#]+)?} do |host, format|
 	@record = IP.find_by_host(host)
 	pass unless @record
 
@@ -40,7 +40,7 @@ get %r{/host/([^\/?#\.]+)(?:\.|%2E)?([^\/?#]+)?} do |host, format|
 	end
 end
 
-post %r{/host/([^\/?#\.]+)(?:\.|%2E)?([^\/?#]+)?} do |host, format|
+post %r{/ip/([^\/?#\.]+)(?:\.|%2E)?([^\/?#]+)?} do |host, format|
 	record = IP.find_by_host(host)
 	unless record
 		record = IP.new
