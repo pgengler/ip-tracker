@@ -16,7 +16,7 @@ def hostname(ip)
 end
 
 class IP < ActiveRecord::Base
-	attr_accessible :name, :ip
+	attr_accessible :name, :ip, :last_report
 end
 
 get '/' do
@@ -48,6 +48,7 @@ post %r{/ip/([^\/?#\.]+)(?:\.|%2E)?([^\/?#]+)?} do |host, format|
 	end
 
 	record.ip = env['REMOTE_ADDR']
+	record.last_report = Time.now
 
 	record.save!
 
