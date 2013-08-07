@@ -16,7 +16,7 @@ def hostname(ip)
 end
 
 class IP < ActiveRecord::Base
-	attr_accessible :name, :ip, :last_report
+	attr_accessor :name, :ip, :last_report
 end
 
 get '/' do
