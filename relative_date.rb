@@ -1,3 +1,4 @@
+# adapted from http://stackoverflow.com/a/195894/391999
 module RelativeDate
 	def to_relative
 		a = (Time.now-self).to_i
