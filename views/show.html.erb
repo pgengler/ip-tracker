@@ -6,7 +6,7 @@
 	<body>
 		<h1><%= @record.ip %></h1>
 		<p>
-			Last report: <%= @record.updated_at %>
+			Last report: <%= @record.updated_at.to_relative %> (<%= @record.updated_at %>)
 		</p>
 	</body>
 </html>

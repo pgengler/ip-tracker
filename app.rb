@@ -2,6 +2,7 @@ require 'rubygems'
 require 'sinatra'
 require 'sinatra/activerecord'
 require 'socket'
+require_relative './relative_date'
 
 set :database, 'postgres://ip:ip@localhost/ips'
 
