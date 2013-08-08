@@ -47,7 +47,6 @@ post %r{/ip/([^\/?#\.]+)(?:\.|%2E)?([^\/?#]+)?} do |host, format|
 	end
 
 	record.ip = env['REMOTE_ADDR']
-	record.last_report = Time.now
 
 	record.save!
 
