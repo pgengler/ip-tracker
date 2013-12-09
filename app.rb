@@ -33,7 +33,7 @@ get %r{/ip/([^\/?#\.]+)(?:\.|%2E)?([^\/?#]+)?} do |host, format|
 	pass unless @record
 
 	if format == 'txt'
-		content_type 'text/plain'
+		content_type :txt
 		@record.ip
 	else
 		erb :'show.html'
