@@ -41,11 +41,7 @@ get %r{/ip/([^\/?#\.]+)(?:\.|%2E)?([^\/?#]+)?} do |host, format|
 end
 
 post %r{/ip/([^\/?#\.]+)(?:\.|%2E)?([^\/?#]+)?} do |host, format|
-	record = IP.find_by_host(host)
-	unless record
-		record = IP.new
-		record.host = host
-	end
+	record = IP.find_or_initialize_by_host(host)
 
 	record.ip = env['REMOTE_ADDR']
 
