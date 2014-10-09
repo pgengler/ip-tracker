@@ -20,12 +20,14 @@ GEM
     atomic (1.1.12)
     builder (3.1.4)
     i18n (0.6.4)
+    kgio (2.9.2)
     minitest (4.7.5)
     multi_json (1.7.8)
     pg (0.16.0)
     rack (1.5.2)
     rack-protection (1.5.0)
       rack
+    raindrops (0.13.0)
     sinatra (1.4.3)
       rack (~> 1.4)
       rack-protection (~> 1.4)
@@ -37,6 +39,10 @@ GEM
       atomic
     tilt (1.4.1)
     tzinfo (0.3.37)
+    unicorn (4.8.3)
+      kgio (~> 2.6)
+      rack
+      raindrops (~> 0.7)
 
 PLATFORMS
   ruby
@@ -45,3 +51,4 @@ DEPENDENCIES
   pg
   sinatra
   sinatra-activerecord
+  unicorn
