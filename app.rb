@@ -16,11 +16,15 @@ def hostname(ip)
 	hostname
 end
 
+def ip_addr
+	env['HTTP_X_REAL_IP'] || env['REMOTE_ADDR']
+end
+
 class IP < ActiveRecord::Base
 end
 
 get '/' do
-	@ip = env['REMOTE_ADDR']
+	@ip = ip_addr
 	@hostname = hostname(@ip) if @ip
 	@forwarded = env['HTTP_X_FORWARDED_FOR']
 	@forwarded_host = hostname(@forwarded) if @forwarded
@@ -43,7 +47,7 @@ end
 post %r{/ip/([^\/?#\.]+)(?:\.|%2E)?([^\/?#]+)?} do |host, format|
 	record = IP.find_or_initialize_by_host(host)
 
-	record.ip = env['REMOTE_ADDR']
+	record.ip = ip_addr
 
 	record.save!
 
