@@ -43,7 +43,7 @@ end
 post %r{/ip/([^\/?#\.]+)(?:\.|%2E)?([^\/?#]+)?} do |host, format|
 	record = IP.find_or_initialize_by_host(host)
 
-	record.ip = env['REMOTE_ADDR']
+	record.ip = env['HTTP_X_FORWARDED_FOR'] || env['REMOTE_ADDR']
 
 	record.save!
 
