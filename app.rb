@@ -44,6 +44,7 @@ post %r{/ip/([^\/?#\.]+)(?:\.|%2E)?([^\/?#]+)?} do |host, format|
 	record = IP.find_or_initialize_by_host(host)
 
 	record.ip = env['HTTP_X_FORWARDED_FOR'] || env['REMOTE_ADDR']
+	record.last_report_at = DateTime.now
 
 	record.save!
 
