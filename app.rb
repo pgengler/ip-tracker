@@ -20,10 +20,8 @@ class IP < ActiveRecord::Base
 end
 
 get '/' do
-	@ip = env['REMOTE_ADDR']
+	@ip = env['HTTP_X_FORWARDED_FOR']
 	@hostname = hostname(@ip) if @ip
-	@forwarded = env['HTTP_X_FORWARDED_FOR']
-	@forwarded_host = hostname(@forwarded) if @forwarded
 
 	erb :'index.html'
 end
