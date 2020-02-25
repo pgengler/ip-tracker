@@ -8,8 +8,7 @@ set :database, 'postgres://ip:ip@localhost/ips'
 
 def hostname(ip)
 	begin
-		address_parts = ip.split(/\./).map(&:to_i)
-		hostname = Socket.gethostbyaddr(address_parts.pack('CCCC')).first
+		hostname = Addrinfo.ip('::1').getnameinfo[0]
 	rescue SocketError
 		hostname = nil
 	end
@@ -20,7 +19,7 @@ class IP < ActiveRecord::Base
 end
 
 get '/' do
-	@ip = env['HTTP_X_FORWARDED_FOR']
+	@ip = env['HTTP_X_FORWARDED_FOR'] || env['REMOTE_ADDR']
 	@hostname = hostname(@ip) if @ip
 
 	erb :'index.html'
