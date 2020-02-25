@@ -1,5 +1,5 @@
-# config valid only for Capistrano 3.1
-lock '3.2.1'
+# config valid only for Capistrano 3.12
+lock '3.12.0'
 
 set :application, 'ip-tracker'
 set :repo_url, 'https://github.com/pgengler/ip-tracker.git'
