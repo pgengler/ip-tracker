@@ -8,7 +8,7 @@ set :database, 'postgres://ip:ip@localhost/ips'
 
 def hostname(ip)
 	begin
-		hostname = Addrinfo.ip('::1').getnameinfo[0]
+		hostname = Addrinfo.ip(ip).getnameinfo[0]
 	rescue SocketError
 		hostname = nil
 	end
