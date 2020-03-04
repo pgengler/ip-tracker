@@ -37,7 +37,7 @@ GEM
       net-ssh (>= 2.6.5, < 6.0.0)
     net-ssh (5.2.0)
     pg (1.0.0)
-    puma (3.12.3)
+    puma (3.12.4)
     rack (1.6.12)
     rack-protection (1.5.5)
       rack
