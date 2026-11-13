@@ -4,7 +4,24 @@ require 'sinatra/activerecord'
 require 'socket'
 require_relative './relative_date'
 
-set :database, 'postgres://ip:ip@localhost/ips'
+if ENV['DATABASE_URL']
+	set :database, ENV['DATABASE_URL']
+elsif production?
+	set :database,
+		adapter: 'postgresql',
+		host: ENV['DB_HOST'],
+		port: ENV['DB_PORT'],
+		database: ENV['POSTGRES_DB'],
+		username: ENV['POSTGRES_USER'],
+		password: ENV['POSTGRES_PASSWORD']
+else
+	set :database, 'postgres://ip:ip@localhost/ips'
+end
+
+# /up is exempt so the container health check works regardless of Host header.
+set :host_authorization,
+	permitted_hosts: %w[ip.pgengler.net localhost 127.0.0.1] + (ENV['PERMITTED_HOSTS'] || '').split(',').map(&:strip),
+	allow_if: ->(env) { env['PATH_INFO'] == '/up' }
 
 def hostname(ip)
 	begin
@@ -16,14 +33,25 @@ def hostname(ip)
 	hostname
 end
 
+def client_ip
+	forwarded = request.env['HTTP_X_FORWARDED_FOR']
+	return forwarded.split(',').first.strip if forwarded
+
+	request.env['REMOTE_ADDR']
+end
+
 class IP < ActiveRecord::Base
 end
 
 get '/' do
-	@ip = env['HTTP_X_FORWARDED_FOR'] || env['REMOTE_ADDR']
+	@ip = client_ip
 	@hostname = hostname(@ip) if @ip
 
 	erb :'index.html'
+end
+
+get '/up' do
+	'ok'
 end
 
 get %r{/ip/([^\/?#\.]+)(?:\.|%2E)?([^\/?#]+)?} do |host, format|
@@ -41,7 +69,7 @@ end
 post %r{/ip/([^\/?#\.]+)(?:\.|%2E)?([^\/?#]+)?} do |host, format|
 	record = IP.find_or_initialize_by(host: host)
 
-	record.ip = env['HTTP_X_FORWARDED_FOR'] || env['REMOTE_ADDR']
+	record.ip = client_ip
 
 	record.save!
 
