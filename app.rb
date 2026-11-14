@@ -34,6 +34,9 @@ def hostname(ip)
 end
 
 def client_ip
+	cf_ip = request.env['HTTP_CF_CONNECTING_IP'].to_s.strip
+	return cf_ip unless cf_ip.empty?
+
 	forwarded = request.env['HTTP_X_FORWARDED_FOR']
 	return forwarded.split(',').first.strip if forwarded
 
