@@ -1,0 +1,25 @@
+# See https://docs.docker.com/engine/reference/builder/#dockerignore-file for more details.
+
+# Ignore version control files.
+.git
+.gitignore
+
+# Ignore bundler config and local gems.
+.bundle
+vendor/bundle
+
+# Ignore all logfiles and tempfiles.
+log/*
+tmp/*
+
+# Ignore editor and OS files.
+.DS_Store
+
+# Ignore Kamal config (not needed inside the container).
+.kamal
+
+# Ignore local environment file (contains secrets).
+.env
+
+# Server-specific database migration notes (not for the image).
+MIGRATING_DATABASE.md

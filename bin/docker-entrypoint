@@ -1,0 +1,8 @@
+#!/bin/sh
+
+# If running the app server, migrate the database first
+if [ "$1" = "bundle" ] && [ "$2" = "exec" ] && [ "$3" = "puma" ]; then
+  bundle exec rake db:migrate
+fi
+
+exec "$@"
