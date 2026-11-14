@@ -94,7 +94,7 @@ server {
 }
 ```
 
-**Important:** the app reads the client IP from the first entry of `X-Forwarded-For` (falling back to `REMOTE_ADDR`). If nginx doesn't send `X-Forwarded-For`, every recorded IP will be the proxy's address. DNS for `ip.pgengler.net` must point at the server.
+**Important:** the app reads the client IP from Cloudflare's `CF-Connecting-IP` header, then the first entry of `X-Forwarded-For`, then `REMOTE_ADDR`. nginx forwards `CF-Connecting-IP` by default; don't override or clear it. If neither header reaches the app, every recorded IP will be the proxy's address. DNS for `ip.pgengler.net` must point at the server.
 
 ### First-time setup
 
